@@ -1,0 +1,97 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="realsense_d455">
+    <static>false</static>
+    <link name="base_link">
+      <!-- Color Camera -->
+      <sensor name="color_camera" type="camera">
+        <camera>
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>10.0</far>
+          </clip>
+          <update_rate>30.0</update_rate>
+        </camera>
+        <plugin name="gazebo_ros_realsense_plugin" filename="libgazebo_ros_realsense.so">
+          <ros>
+            <namespace>realsense</namespace>
+          </ros>
+          <color_topic_name>camera/color/image_raw</color_topic_name>
+        </plugin>
+      </sensor>
+
+      <!-- Depth Camera -->
+      <sensor name="depth_camera" type="depth">
+        <camera>
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>10.0</far>
+          </clip>
+          <update_rate>30.0</update_rate>
+        </camera>
+        <plugin name="RealSensePlugin" filename="librealsense_plugin.so">
+          <depth_topic_name>camera/depth/image_raw</depth_topic_name>
+          <depth_camera_info_topic_name>camera/depth/camera_info</depth_camera_info_topic_name>
+          <rangeMinDepth>0.2</rangeMinDepth>
+          <rangeMaxDepth>5.0</rangeMaxDepth>
+          <pointCloud>true</pointCloud>
+          <pointCloudTopicName>camera/points</pointCloudTopicName>
+        </plugin>
+      </sensor>
+
+      <!-- Infrared Cameras -->
+      <sensor name="infrared1_camera" type="camera">
+        <camera>
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>10.0</far>
+          </clip>
+          <update_rate>30.0</update_rate>
+        </camera>
+        <plugin name="RealSensePlugin" filename="librealsense_plugin.so">
+          <infrared1_topic_name>camera/infrared1/image_raw</infrared1_topic_name>
+          <infrared1_camera_info_topic_name>camera/infrared1/camera_info</infrared1_camera_info_topic_name>
+        </plugin>
+      </sensor>
+
+      <sensor name="infrared2_camera" type="camera">
+        <camera>
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>10.0</far>
+          </clip>
+          <update_rate>30.0</update_rate>
+        </camera>
+        <plugin name="RealSensePlugin" filename="librealsense_plugin.so">
+          <infrared2_topic_name>camera/infrared2/image_raw</infrared2_topic_name>
+          <infrared2_camera_info_topic_name>camera/infrared2/camera_info</infrared2_camera_info_topic_name>
+        </plugin>
+      </sensor>
+    </link>
+  </model>
+</sdf>
+

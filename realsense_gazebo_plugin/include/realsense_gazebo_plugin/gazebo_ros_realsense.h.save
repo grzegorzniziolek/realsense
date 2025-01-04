@@ -1,0 +1,42 @@
+#ifndef _GAZEBO_ROS_REALSENSE_PLUGIN_
+#define _GAZEBO_ROS_REALSENSE_PLUGIN_
+
+#include "realsense_gazebo_plugin/RealSensePlugin.h"
+
+#include <rclcpp/rclcpp.hpp>
+#include <sensor_msgs/msg/camera_info.hpp>
+#include <sensor_msgs/msg/image.hpp>
+#include <sensor_msgs/msg/point_cloud2.hpp>
+#include <sensor_msgs/msg/imu.hpp> // Dodano obsługę IMU
+
+#include <camera_info_manager/camera_info_manager.hpp>
+#include <image_transport/image_transport.hpp>
+
+#include <memory>
+#include <string>
+
+namespace gazebo {
+
+class GazeboRosRealsense : public RealSensePlugin {
+public:
+  GazeboRosRealsense();
+  ~GazeboRosRealsense();
+
+  virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf);
+  virtual void OnNewDepthFrame();
+  virtual void OnNewFrame(const rendering::CameraPtr cam, const transport::PublisherPtr pub);
+  virtual void OnImuUpdate(); // Funkcja obsługi IMU
+
+protected:
+  std::shared_ptr<rclcpp::Node> node_;
+  std::shared_ptr<camera_info_manager::CameraInfoManager> camera_info_manager_;
+
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pointcloud_pub_;
+  rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imu_pub_; // Publikacja IMU
+
+  image_transport::CameraPublisher color_pub_, depth_pub_;
+};
+
+}  // namespace gazebo
+#endif
+
